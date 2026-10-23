@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Recursos académicos y guías del Capítulo Estudiantil ACM UCSP — CS Roadmap, Carátula UCSP, Guías de estudio." />
+  <title>Recursos | ACM UCSP Student Chapter</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" type="image/png" href="logos/acm_ucsp.png" />
+</head>
+<body>
+
+  <!-- HEADER GLOBAL -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="header-brand" aria-label="ACM UCSP — Inicio">
+        <img src="logos/acm_ucsp.png" alt="ACM UCSP Logo" class="logo-img" />
+      </a>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Abrir menú" aria-expanded="false">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+      <nav class="header-nav" id="headerNav" aria-label="Navegación principal">
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Inicio</a></li>
+          <li><a href="calendar.html" class="nav-link">Eventos</a></li>
+          <li><a href="index.html#equipo" class="nav-link">Miembros</a></li>
+          <li><a href="resources.html" class="nav-link active">Recursos</a></li>
+        </ul>
+        <a href="index.html#contacto" class="header-cta-btn">
+          Únete Ahora
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===================================================================
+         HERO DE RECURSOS (estilo UIUC: azul primario, texto blanco)
+    ==================================================================== -->
+    <div class="resources-hero" aria-label="Encabezado de Recursos">
+      <div class="container" style="position:relative;z-index:1;">
+        <h1 class="resources-title">Recursos</h1>
+        <p class="resources-subtitle">Guías, plantillas y herramientas proporcionadas por el capítulo ACM UCSP para la comunidad estudiantil de Ciencia de la Computación de la UCSP.</p>
+      </div>
+    </div>
+
+    <!-- ===================================================================
+         LAYOUT 2 COLUMNAS: Sidebar pegajoso + Contenido Principal
+    ==================================================================== -->
+    <div class="container">
+      <div class="resources-layout">
+
+        <!-- ============================================================
+             SIDEBAR PEGAJOSO (Menú de navegación interno, estilo UIUC)
+        ============================================================= -->
+        <aside class="resources-sidebar" aria-label="Navegación de recursos" id="resourcesSidebar">
+          <p class="sidebar-heading">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/>
+              <line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/>
+              <line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+            </svg>
+            En esta página
+          </p>
+          <nav aria-label="Menú de secciones de recursos">
+            <ul class="sidebar-nav-list" id="sidebarNavList">
+              <li class="sidebar-nav-item">
+                <a href="#cs-roadmap" class="sidebar-nav-link active" data-section="cs-roadmap">CS Roadmap</a>
+              </li>
+              <li class="sidebar-nav-item">
+                <a href="#caratula" class="sidebar-nav-link" data-section="caratula">Carátula UCSP</a>
+              </li>
+              <li class="sidebar-nav-item">
+                <a href="#guias" class="sidebar-nav-link" data-section="guias">Otras Guías</a>
+              </li>
+              <li class="sidebar-nav-item">
+                <a href="index.html#contacto" class="sidebar-nav-link" data-section="feedback">Feedback</a>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+
+        <!-- ============================================================
+             COLUMNA PRINCIPAL DE CONTENIDO
+        ============================================================= -->
+        <div class="resources-content-col">
+
+          <!-- --------------------------------------------------------
+               SECCIÓN 1: CS ROADMAP
+               Enlace externo que redirige a GitHub Page
+          --------------------------------------------------------- -->
+          <section class="resource-section" id="cs-roadmap" aria-label="CS Roadmap">
+            <h2 class="resource-section-title">CS Roadmap</h2>
+            <p class="resource-lead-text">
+              El Mapa de Ruta de Ciencias de la Computación de ACM UCSP es una guía visual y estructurada que cubre los temas, tecnologías y habilidades esenciales para tu formación como profesional de la computación. Desde fundamentos hasta especialidades avanzadas.
+            </p>
+
+            <div class="roadmap-feature-card">
+              <div>
+                <h3 style="font-size:1.3rem;font-weight:700;color:var(--text-dark);margin-bottom:10px;">
+                  Roadmap oficial del capítulo
+                </h3>
+                <p style="color:var(--text-muted);font-size:0.96rem;line-height:1.6;margin-bottom:0;">
+                  Disponible como GitHub Page interactiva. Mantiene rutas de aprendizaje para <strong>Desarrollo Web</strong>, <strong>Ciencia de Datos</strong>, <strong>Programación Competitiva</strong> y <strong>Sistemas</strong>. Se actualiza cada semestre con las recomendaciones del comité académico.
+                </p>
+              </div>
+
+              <div class="roadmap-tracks-grid">
+                <div class="track-box">
+                  <strong>💻 Desarrollo Web</strong>
+                  HTML/CSS/JS, React, Node.js, Bases de datos, APIs REST, despliegue en la nube.
+                </div>
+                <div class="track-box">
+                  <strong>📊 Ciencia de Datos</strong>
+                  Python, Pandas, NumPy, ML con Scikit-Learn, visualización y estadística aplicada.
+                </div>
+                <div class="track-box">
+                  <strong>⚡ Competitive Programming</strong>
+                  Algoritmos y estructuras de datos, C++ avanzado, plataformas Codeforces y ICPC.
+                </div>
+                <div class="track-box">
+                  <strong>⚙️ Sistemas & SO</strong>
+                  C, arquitectura de computadoras, sistemas operativos, redes, Docker y Linux.
+                </div>
+                <div class="track-box">
+                  <strong>🤖 Inteligencia Artificial</strong>
+                  Deep Learning, PyTorch, transformers, NLP, visión computacional y ética en IA.
+                </div>
+                <div class="track-box">
+                  <strong>🔒 Ciberseguridad</strong>
+                  Fundamentos de seguridad, CTFs, criptografía, análisis de vulnerabilidades y redes seguras.
+                </div>
+              </div>
+
+              <div>
+                <!-- Enlace externo a GitHub Page -->
+                <a href="https://gaboe2.github.io/RoadMapCS-ACM/" target="_blank" rel="noopener noreferrer"
+                   class="btn-github-external" aria-label="Ver el CS Roadmap en GitHub Pages">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                  </svg>
+                  Ver CS Roadmap en GitHub Pages
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                    <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+                  </svg>
+                </a>
+              </div>
+
+              <p style="font-size:0.85rem;color:var(--text-muted);margin-top:-6px;">
+                <em>¿Quieres contribuir al roadmap? Abre un Pull Request en nuestro repositorio de GitHub o contacta al equipo de Webmasters.</em>
+              </p>
+            </div>
+          </section>
+
+          <!-- --------------------------------------------------------
+               SECCIÓN 2: CARÁTULA UCSP
+               Botones/enlaces para plantillas LaTeX y Word
+          --------------------------------------------------------- -->
+          <section class="resource-section" id="caratula" aria-label="Carátula UCSP">
+            <h2 class="resource-section-title">Carátula UCSP</h2>
+            <p class="resource-lead-text">
+              Plantillas oficiales de carátula para trabajos académicos en la Escuela Profesional de Ciencia de la Computación de la UCSP. Disponibles en formato <strong>LaTeX</strong> (Overleaf compatible) y <strong>Microsoft Word</strong>. Cumplen con los lineamientos de presentación del departamento.
+            </p>
+
+            <div class="caratula-container">
+              <h3 style="font-size:1.2rem;font-weight:700;color:var(--text-dark);margin-bottom:12px;">Descarga la plantilla</h3>
+              <p style="color:var(--text-muted);font-size:0.94rem;margin-bottom:6px;">
+                Elige el formato que mejor se adapte a tu flujo de trabajo. La plantilla LaTeX es ideal para documentos técnicos y papers; la versión Word es recomendada para reportes y trabajos de curso generales.
+              </p>
+              <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:6px;">
+                Recuerda que <strong>no necesitas</strong> instalar LaTeX localmente; puedes usar Overleaf directamente en tu navegador de forma gratuita.
+              </p>
+
+              <div class="caratula-buttons-row">
+                <!-- Botón: LaTeX (descarga el .zip con el .tex) -->
+                <a href="templates/caratula_ucsp_latex.zip" download="caratula_ucsp_latex.zip"
+                   class="btn-template-latex" aria-label="Descargar plantilla LaTeX de carátula UCSP">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  Descargar Plantilla LaTeX (.zip)
+                </a>
+
+                <!-- Botón: Abrir en Overleaf -->
+                <a href="https://www.overleaf.com/latex/templates" target="_blank" rel="noopener noreferrer"
+                   class="btn-template-overleaf" aria-label="Abrir plantilla en Overleaf">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                    <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+                  </svg>
+                  Abrir en Overleaf
+                </a>
+
+                <!-- Botón: Carátula UCSP oficial online -->
+                <a href="https://dc.ucsp.edu.pe/caratula/" target="_blank" rel="noopener noreferrer"
+                   class="btn-template-word" aria-label="Generador de Carátula UCSP oficial en línea">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                    <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+                  </svg>
+                  Generador Oficial UCSP (online)
+                </a>
+                  Descargar Plantilla Word (.docx)
+                </a>
+              </div>
+
+              <!-- Instrucciones de uso -->
+              <div style="background-color:var(--bg-main);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:20px;margin-top:16px;">
+                <h4 style="font-size:1rem;font-weight:700;color:var(--text-dark);margin-bottom:12px;">
+                  ¿Cómo usar la plantilla LaTeX?
+                </h4>
+                <ol style="list-style:decimal;padding-left:22px;display:flex;flex-direction:column;gap:8px;font-size:0.92rem;color:var(--text-muted);line-height:1.5;">
+                  <li>Descarga el archivo <code style="background:#F1F5F9;padding:2px 6px;border-radius:4px;font-size:0.88rem;">caratula_ucsp_latex.zip</code> y descomprímelo.</li>
+                  <li>Sube el archivo <code style="background:#F1F5F9;padding:2px 6px;border-radius:4px;font-size:0.88rem;">.tex</code> a <a href="https://www.overleaf.com" target="_blank" rel="noopener noreferrer" style="color:var(--primary-blue);font-weight:600;">Overleaf</a> o compílalo con TeXLive / MiKTeX.</li>
+                  <li>Edita el título, autores, docente y fecha directamente en el archivo.</li>
+                  <li>Compila con <code style="background:#F1F5F9;padding:2px 6px;border-radius:4px;font-size:0.88rem;">pdflatex caratula_ucsp.tex</code> o usa el botón "Recompilar" en Overleaf.</li>
+                  <li>¡Listo! Obtén tu PDF con el formato oficial UCSP.</li>
+                </ol>
+              </div>
+            </div>
+          </section>
+
+          <!-- --------------------------------------------------------
+               SECCIÓN 3: OTRAS GUÍAS
+          --------------------------------------------------------- -->
+          <section class="resource-section" id="guias" aria-label="Otras guías y recursos">
+            <h2 class="resource-section-title">Otras Guías</h2>
+            <p class="resource-lead-text">
+              Recursos adicionales curados por los miembros del capítulo para apoyar tu aprendizaje autónomo, preparación para entrevistas técnicas y desarrollo profesional.
+            </p>
+
+            <div class="guides-list">
+
+              <!-- Guía 1: Programación Competitiva -->
+              <article class="guide-item-card" aria-label="Guía de Programación Competitiva">
+                <h3 class="guide-title">
+                  <span style="font-size:1.4rem;" aria-hidden="true">⚡</span>
+                  Guía de Programación Competitiva
+                </h3>
+                <p class="guide-desc">
+                  Compendio de recursos para prepararte para el ICPC y concursos nacionales. Incluye lista de temas esenciales, libros recomendados (Competitive Programmer's Handbook, KACTL), plataformas de práctica (Codeforces, AtCoder, SPOJ) y estrategias de resolución de problemas.
+                </p>
+                <ul style="list-style:disc;padding-left:20px;color:var(--text-muted);font-size:0.92rem;margin-bottom:14px;display:flex;flex-direction:column;gap:5px;">
+                  <li><strong>Estructuras de datos:</strong> Segment Tree, BIT, DSU, Treap</li>
+                  <li><strong>Algoritmos de grafos:</strong> Dijkstra, Bellman-Ford, Flujo máximo, LCA</li>
+                  <li><strong>Programación dinámica:</strong> Bitmask DP, DP en árboles, DP convexa</li>
+                  <li><strong>Matemáticas:</strong> Teoría de números, combinatoria, geometría computacional</li>
+                </ul>
+                <a href="https://codeforces.com" target="_blank" rel="noopener noreferrer" class="guide-link-action" aria-label="Ir a Codeforces para practicar">
+                  Practicar en Codeforces
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+              </article>
+
+              <!-- Guía 2: Preparación de CV y Entrevistas -->
+              <article class="guide-item-card" aria-label="Guía de CV y Entrevistas Técnicas">
+                <h3 class="guide-title">
+                  <span style="font-size:1.4rem;" aria-hidden="true">📄</span>
+                  Preparación de CV y Entrevistas Técnicas
+                </h3>
+                <p class="guide-desc">
+                  Aprende a crear un CV de una página que destaque en el sector tech. Incluye plantillas, consejos para el formato ATS-friendly, y una guía de preparación para entrevistas técnicas con los patrones de problemas más frecuentes (LeetCode 150, NeetCode, Blind 75).
+                </p>
+                <ul style="list-style:disc;padding-left:20px;color:var(--text-muted);font-size:0.92rem;margin-bottom:14px;display:flex;flex-direction:column;gap:5px;">
+                  <li><strong>CV tips:</strong> Formato LaTeX, métricas de impacto, sección de proyectos</li>
+                  <li><strong>LeetCode patterns:</strong> Two Pointers, Sliding Window, Binary Search, Backtracking</li>
+                  <li><strong>Behavioral:</strong> Método STAR para respuestas de comportamiento</li>
+                  <li><strong>System Design:</strong> Escalabilidad, bases de datos, caché y microservicios</li>
+                </ul>
+                <a href="https://neetcode.io" target="_blank" rel="noopener noreferrer" class="guide-link-action" aria-label="Ver NeetCode para práctica de entrevistas">
+                  Explorar NeetCode.io
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+              </article>
+
+              <!-- Guía 3: Git y GitHub para Proyectos Académicos -->
+              <article class="guide-item-card" aria-label="Guía de Git y GitHub">
+                <h3 class="guide-title">
+                  <span style="font-size:1.4rem;" aria-hidden="true">🌿</span>
+                  Git & GitHub para Proyectos Académicos
+                </h3>
+                <p class="guide-desc">
+                  Desde los primeros pasos con Git hasta flujos de trabajo avanzados (GitFlow, Pull Requests, GitHub Actions). Aprende a versionar tus proyectos académicos, colaborar en equipo y publicar tu portafolio en GitHub Pages.
+                </p>
+                <ul style="list-style:disc;padding-left:20px;color:var(--text-muted);font-size:0.92rem;margin-bottom:14px;display:flex;flex-direction:column;gap:5px;">
+                  <li><strong>Básico:</strong> <code style="background:#F1F5F9;padding:1px 5px;border-radius:3px;font-size:0.85rem;">git init, add, commit, push, pull</code></li>
+                  <li><strong>Colaboración:</strong> Branches, merge, rebase, resolución de conflictos</li>
+                  <li><strong>GitHub:</strong> Issues, PRs, Actions para CI/CD, GitHub Pages</li>
+                  <li><strong>Buenas prácticas:</strong> .gitignore, mensajes de commit semánticos, READMEs</li>
+                </ul>
+                <a href="https://learngitbranching.js.org/?locale=es_ES" target="_blank" rel="noopener noreferrer" class="guide-link-action" aria-label="Aprender Git de forma interactiva">
+                  Aprender Git Interactivamente
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+              </article>
+
+              <!-- Guía 4: Herramientas Esenciales del Estudiante CS -->
+              <article class="guide-item-card" aria-label="Herramientas esenciales para estudiantes de CS">
+                <h3 class="guide-title">
+                  <span style="font-size:1.4rem;" aria-hidden="true">🛠️</span>
+                  Toolkit del Estudiante CS — Herramientas Recomendadas
+                </h3>
+                <p class="guide-desc">
+                  Lista curada de herramientas, IDEs, extensiones y servicios gratuitos que todo estudiante de Ciencia de la Computación debería conocer. Ordenados por área de uso.
+                </p>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+                  <div>
+                    <p style="font-weight:700;font-size:0.9rem;color:var(--text-dark);margin-bottom:6px;">Editores & IDEs</p>
+                    <ul style="list-style:disc;padding-left:16px;color:var(--text-muted);font-size:0.88rem;display:flex;flex-direction:column;gap:4px;">
+                      <li>VS Code (extensiones recomendadas)</li>
+                      <li>CLion para C/C++ (licencia estudiante)</li>
+                      <li>IntelliJ IDEA (JetBrains Student)</li>
+                      <li>Vim / Neovim para terminales</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p style="font-weight:700;font-size:0.9rem;color:var(--text-dark);margin-bottom:6px;">Plataformas de Aprendizaje</p>
+                    <ul style="list-style:disc;padding-left:16px;color:var(--text-muted);font-size:0.88rem;display:flex;flex-direction:column;gap:4px;">
+                      <li>CS50 (Harvard OpenCourseWare)</li>
+                      <li>MIT OpenCourseWare 6.006</li>
+                      <li>Coursera (auditoría gratuita)</li>
+                      <li>The Missing Semester (MIT)</li>
+                    </ul>
+                  </div>
+                </div>
+                <a href="https://education.github.com/pack" target="_blank" rel="noopener noreferrer" class="guide-link-action" aria-label="Ver GitHub Student Developer Pack">
+                  GitHub Student Developer Pack (gratis)
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+              </article>
+
+            </div><!-- /.guides-list -->
+          </section>
+
+          <!-- --------------------------------------------------------
+               SECCIÓN 4: FEEDBACK (redirige al formulario de index)
+          --------------------------------------------------------- -->
+          <section class="resource-section" id="feedback" aria-label="Enviar feedback o sugerencias">
+            <h2 class="resource-section-title">Feedback</h2>
+            <p class="resource-lead-text">
+              ¿Tienes una sugerencia para mejorar estos recursos? ¿Quieres que incluyamos una guía específica? Tu opinión es fundamental para que el capítulo siga creciendo.
+            </p>
+            <div style="background-color:var(--surface-cream);border:1px solid var(--border-cream);border-radius:var(--radius-lg);padding:32px;text-align:center;">
+              <p style="font-size:1.05rem;color:var(--text-dark);font-weight:500;margin-bottom:20px;">
+                Usa nuestro formulario de contacto para enviarnos tus ideas, reportar errores o pedir recursos específicos.
+              </p>
+              <a href="index.html#contacto" class="btn-primary" style="display:inline-flex;margin:0 auto;"
+                 aria-label="Ir al formulario de contacto">
+                Enviar Feedback
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                </svg>
+              </a>
+            </div>
+          </section>
+
+        </div><!-- /.resources-content-col -->
+      </div><!-- /.resources-layout -->
+    </div><!-- /.container -->
+  </main>
+
+  <!-- FOOTER GLOBAL -->
+  <footer class="site-footer" aria-label="Pie de página del sitio ACM UCSP">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col-brand">
+          <img src="logos/acm_ucsp.png" alt="ACM UCSP Logo" class="footer-logo" />
+          <p class="footer-desc">Capítulo Estudiantil ACM UCSP — Universidad Católica San Pablo, Arequipa, Perú.</p>
+          <div class="footer-social-row">
+            <a href="https://www.instagram.com/acm.ucsp/" target="_blank" rel="noopener noreferrer" class="footer-social-btn" aria-label="Instagram">
+              <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="mailto:acm@ucsp.edu.pe" class="footer-social-btn" aria-label="Correo">
+              <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <p class="footer-heading">Navegación</p>
+          <ul class="footer-nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="calendar.html">Calendario</a></li>
+            <li><a href="index.html#equipo">Equipo</a></li>
+            <li><a href="resources.html">Recursos</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-heading">Recursos</p>
+          <ul class="footer-nav-links">
+            <li><a href="#cs-roadmap">CS Roadmap</a></li>
+            <li><a href="#caratula">Carátula UCSP</a></li>
+            <li><a href="#guias">Otras Guías</a></li>
+            <li><a href="index.html#contacto">Feedback</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-heading">Contacto</p>
+          <ul class="footer-nav-links">
+            <li><a href="mailto:acm@ucsp.edu.pe">acm@ucsp.edu.pe</a></li>
+            <li><a href="https://www.instagram.com/acm.ucsp/" target="_blank" rel="noopener noreferrer">@acm.ucsp</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Capítulo Estudiantil ACM UCSP. Todos los derechos reservados.</p>
+        <p>Diseñado con ❤ por el equipo de Webmasters ACM UCSP.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/resources.js"></script>
+</body>
+</html>
