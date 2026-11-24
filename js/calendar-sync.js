@@ -41,12 +41,35 @@ document.addEventListener('DOMContentLoaded', () => {
   eventsPromise.then(events => {
     renderUpNextCards(events);
     renderPastEvents(events);
+    realignHashTargetAfterCalendarRender();
   }).catch(error => {
     console.error('[ACM UCSP Calendar] No se pudieron cargar los eventos:', error);
     renderUpNextCards([]);
     renderPastEvents([]);
+    realignHashTargetAfterCalendarRender();
   });
 });
+
+/**
+ * Los eventos se insertan después de que el navegador procesa el fragmento
+ * inicial de la URL. Ese cambio de altura puede dejar desfasada el ancla.
+ * Reubica el fragmento actual una vez que el DOM terminó de actualizarse.
+ */
+function realignHashTargetAfterCalendarRender() {
+  if (!window.location.hash) return;
+
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    const target = document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
+    if (!target) return;
+
+    const top = target.getBoundingClientRect().top + window.scrollY - 80;
+    const root = document.documentElement;
+    const previousScrollBehavior = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'auto';
+    window.scrollTo(0, top);
+    root.style.scrollBehavior = previousScrollBehavior;
+  }));
+}
 
 /* ------------------------------------------------------------------
    FUNCIÓN PRINCIPAL: Fetch desde Google Calendar API v3

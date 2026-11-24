@@ -324,7 +324,16 @@ const ACM_UCSP = {
 
   /** Genera la URL para agregar un evento a Google Calendar */
   buildGCalURL({ title, startISO, endISO, location = '', description = '' }) {
-    const fmt = (iso) => iso.replace(/[-:]/g, '').replace('.000Z', 'Z');
+    const fmt = (iso) => {
+      // Google Calendar acepta fechas de día completo como YYYYMMDD.
+      if (/^\d{4}-\d{2}-\d{2}$/.test(iso)) return iso.replace(/-/g, '');
+
+      // Convierte los offsets RFC3339 (p. ej. -05:00) a UTC y conserva el signo.
+      const date = new Date(iso);
+      return Number.isNaN(date.getTime())
+        ? ''
+        : date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
+    };
     const base = 'https://calendar.google.com/calendar/render?action=TEMPLATE';
     return `${base}&text=${encodeURIComponent(title)}&dates=${fmt(startISO)}/${fmt(endISO)}&location=${encodeURIComponent(location)}&details=${encodeURIComponent(description)}`;
   }
