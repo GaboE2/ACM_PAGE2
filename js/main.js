@@ -195,7 +195,121 @@
 
 /**
  * ------------------------------------------------------------------
- * 5. UTILITARIOS GLOBALES
+ * 5. CARRUSEL HORIZONTAL EN EL HERO (index.html)
+ * ------------------------------------------------------------------
+ */
+(function initHeroCarousel() {
+  const container = document.getElementById('heroCarousel');
+  const track = document.getElementById('carouselTrack');
+  const prevBtn = document.getElementById('carouselPrevBtn');
+  const nextBtn = document.getElementById('carouselNextBtn');
+  const dotsContainer = document.getElementById('carouselDots');
+
+  if (!container || !track) return;
+
+  const slides = track.querySelectorAll('.carousel-slide');
+  const totalSlides = slides.length;
+  if (totalSlides === 0) return;
+
+  if (dotsContainer) {
+    dotsContainer.replaceChildren(...Array.from(slides, (_, index) => {
+      const dot = document.createElement('button');
+      dot.className = `carousel-dot${index === 0 ? ' active' : ''}`;
+      dot.dataset.slide = String(index);
+      dot.setAttribute('role', 'tab');
+      dot.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+      dot.setAttribute('aria-label', `Foto ${index + 1}`);
+      return dot;
+    }));
+  }
+  const dots = dotsContainer ? dotsContainer.querySelectorAll('.carousel-dot') : [];
+
+  let currentIndex = 0;
+  let autoplayTimer = null;
+  const AUTOPLAY_INTERVAL = 5000;
+
+  function goToSlide(index) {
+    if (index < 0) {
+      currentIndex = totalSlides - 1;
+    } else if (index >= totalSlides) {
+      currentIndex = 0;
+    } else {
+      currentIndex = index;
+    }
+
+    track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+    dots.forEach((dot, i) => {
+      const isActive = i === currentIndex;
+      dot.classList.toggle('active', isActive);
+      dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+  }
+
+  function startAutoplay() {
+    stopAutoplay();
+    autoplayTimer = setInterval(() => {
+      goToSlide(currentIndex + 1);
+    }, AUTOPLAY_INTERVAL);
+  }
+
+  function stopAutoplay() {
+    if (autoplayTimer) {
+      clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    }
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      goToSlide(currentIndex + 1);
+      startAutoplay();
+    });
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      goToSlide(currentIndex - 1);
+      startAutoplay();
+    });
+  }
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      goToSlide(i);
+      startAutoplay();
+    });
+  });
+
+  container.addEventListener('mouseenter', stopAutoplay);
+  container.addEventListener('mouseleave', startAutoplay);
+  container.addEventListener('focusin', stopAutoplay);
+  container.addEventListener('focusout', startAutoplay);
+
+  let touchStartX = 0;
+  let touchEndX = 0;
+  container.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    stopAutoplay();
+  }, { passive: true });
+
+  container.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) goToSlide(currentIndex + 1);
+      else goToSlide(currentIndex - 1);
+    }
+    startAutoplay();
+  }, { passive: true });
+
+  goToSlide(0);
+  startAutoplay();
+})();
+
+/**
+ * ------------------------------------------------------------------
+ * 6. UTILITARIOS GLOBALES
  * ------------------------------------------------------------------
  */
 const ACM_UCSP = {

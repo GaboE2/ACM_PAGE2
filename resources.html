@@ -6,7 +6,8 @@
   <meta name="description" content="Recursos académicos y guías del Capítulo Estudiantil ACM UCSP — CS Roadmap, Carátula UCSP, Guías de estudio." />
   <title>Recursos | ACM UCSP Student Chapter</title>
   <link rel="stylesheet" href="css/styles.css" />
-  <link rel="icon" type="image/png" href="logos/acm_ucsp.png" />
+  <link rel="icon" type="image/png" href="logos/acmiconpge.png">
+<link rel="apple-touch-icon" href="logos/acmiconpge.png">
 </head>
 <body>
 
@@ -14,7 +15,7 @@
   <header class="site-header">
     <div class="container">
       <a href="index.html" class="header-brand" aria-label="ACM UCSP — Inicio">
-        <img src="logos/acm_ucsp.png" alt="ACM UCSP Logo" class="logo-img" />
+        <img src="logos/acm_ucsp2.png" alt="ACM UCSP Logo" class="logo-img" />
       </a>
       <button class="mobile-toggle" id="mobileToggle" aria-label="Abrir menú" aria-expanded="false">
         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none"
@@ -170,42 +171,12 @@
           <section class="resource-section" id="caratula" aria-label="Carátula UCSP">
             <h2 class="resource-section-title">Carátula UCSP</h2>
             <p class="resource-lead-text">
-              Plantillas oficiales de carátula para trabajos académicos en la Escuela Profesional de Ciencia de la Computación de la UCSP. Disponibles en formato <strong>LaTeX</strong> (Overleaf compatible) y <strong>Microsoft Word</strong>. Cumplen con los lineamientos de presentación del departamento.
+              El Departamento de Ciencia de la Computación de la Universidad Católica San Pablo cuenta con una herramienta oficial en línea para generar automáticamente las carátulas institucionales y formatos de entrega de informes y proyectos académicos.
             </p>
 
             <div class="caratula-container">
-              <h3 style="font-size:1.2rem;font-weight:700;color:var(--text-dark);margin-bottom:12px;">Descarga la plantilla</h3>
-              <p style="color:var(--text-muted);font-size:0.94rem;margin-bottom:6px;">
-                Elige el formato que mejor se adapte a tu flujo de trabajo. La plantilla LaTeX es ideal para documentos técnicos y papers; la versión Word es recomendada para reportes y trabajos de curso generales.
-              </p>
-              <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:6px;">
-                Recuerda que <strong>no necesitas</strong> instalar LaTeX localmente; puedes usar Overleaf directamente en tu navegador de forma gratuita.
-              </p>
-
               <div class="caratula-buttons-row">
-                <!-- Botón: LaTeX (descarga el .zip con el .tex) -->
-                <a href="templates/caratula_ucsp_latex.zip" download="caratula_ucsp_latex.zip"
-                   class="btn-template-latex" aria-label="Descargar plantilla LaTeX de carátula UCSP">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                    <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-                  </svg>
-                  Descargar Plantilla LaTeX (.zip)
-                </a>
-
-                <!-- Botón: Abrir en Overleaf -->
-                <a href="https://www.overleaf.com/latex/templates" target="_blank" rel="noopener noreferrer"
-                   class="btn-template-overleaf" aria-label="Abrir plantilla en Overleaf">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                    <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
-                  </svg>
-                  Abrir en Overleaf
-                </a>
-
-                <!-- Botón: Carátula UCSP oficial online -->
+                <!-- Botón oficial online -->
                 <a href="https://dc.ucsp.edu.pe/caratula/" target="_blank" rel="noopener noreferrer"
                    class="btn-template-word" aria-label="Generador de Carátula UCSP oficial en línea">
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -213,24 +184,8 @@
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
                     <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
                   </svg>
-                  Generador Oficial UCSP (online)
+                  Generador Oficial de Carátulas UCSP
                 </a>
-                  Descargar Plantilla Word (.docx)
-                </a>
-              </div>
-
-              <!-- Instrucciones de uso -->
-              <div style="background-color:var(--bg-main);border:1px solid var(--border-light);border-radius:var(--radius-md);padding:20px;margin-top:16px;">
-                <h4 style="font-size:1rem;font-weight:700;color:var(--text-dark);margin-bottom:12px;">
-                  ¿Cómo usar la plantilla LaTeX?
-                </h4>
-                <ol style="list-style:decimal;padding-left:22px;display:flex;flex-direction:column;gap:8px;font-size:0.92rem;color:var(--text-muted);line-height:1.5;">
-                  <li>Descarga el archivo <code style="background:#F1F5F9;padding:2px 6px;border-radius:4px;font-size:0.88rem;">caratula_ucsp_latex.zip</code> y descomprímelo.</li>
-                  <li>Sube el archivo <code style="background:#F1F5F9;padding:2px 6px;border-radius:4px;font-size:0.88rem;">.tex</code> a <a href="https://www.overleaf.com" target="_blank" rel="noopener noreferrer" style="color:var(--primary-blue);font-weight:600;">Overleaf</a> o compílalo con TeXLive / MiKTeX.</li>
-                  <li>Edita el título, autores, docente y fecha directamente en el archivo.</li>
-                  <li>Compila con <code style="background:#F1F5F9;padding:2px 6px;border-radius:4px;font-size:0.88rem;">pdflatex caratula_ucsp.tex</code> o usa el botón "Recompilar" en Overleaf.</li>
-                  <li>¡Listo! Obtén tu PDF con el formato oficial UCSP.</li>
-                </ol>
               </div>
             </div>
           </section>
@@ -380,7 +335,7 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-col-brand">
-          <img src="logos/acm_ucsp.png" alt="ACM UCSP Logo" class="footer-logo" />
+          <img src="logos/acm_ucsp2.png" alt="ACM UCSP Logo" class="footer-logo" />
           <p class="footer-desc">Capítulo Estudiantil ACM UCSP — Universidad Católica San Pablo, Arequipa, Perú.</p>
           <div class="footer-social-row">
             <a href="https://www.instagram.com/acm.ucsp/" target="_blank" rel="noopener noreferrer" class="footer-social-btn" aria-label="Instagram">

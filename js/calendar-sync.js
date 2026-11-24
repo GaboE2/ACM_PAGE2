@@ -2,7 +2,7 @@
    js/calendar-sync.js — Sincronización con Google Calendar API
    Capítulo Estudiantil UCSP ACM
    
-   INSTRUCCIONES PARA ACTIVAR LA SINCRONIZACIÓN REAL:
+   INTEGRACIÓN ACTIVA CON GOOGLE CALENDAR API V3:
    -------------------------------------------------------
    1. Ve a https://console.cloud.google.com/
    2. Crea un proyecto o selecciona uno existente.
@@ -11,135 +11,130 @@
    5. Haz el Google Calendar del capítulo PÚBLICO:
       Calendar Settings → Share → "Make available to public"
    6. Copia el Calendar ID desde Calendar Settings → Integrate calendar.
-   7. Reemplaza GOOGLE_CALENDAR_ID y GOOGLE_API_KEY con tus valores.
-   8. Descomenta el bloque "MODO PRODUCCIÓN" y comenta el "MODO DEMO".
+   7. Restringe GOOGLE_API_KEY a los dominios donde se publica el sitio.
    ========================================================================== */
 
 /* ------------------------------------------------------------------
    CONFIGURACIÓN — Editar antes de desplegar
    ------------------------------------------------------------------ */
-const GOOGLE_CALENDAR_ID = 'TU_CALENDAR_ID@group.calendar.google.com'; // ← Reemplazar
-const GOOGLE_API_KEY     = 'TU_API_KEY_AQUI';                          // ← Reemplazar
+const GOOGLE_CALENDAR_ID = 'c_7297f62ec1a5c0cb91116de48b2f8b9467fc52fd4f3571f0573cba287dbdf448@group.calendar.google.com';
+const GOOGLE_API_KEY     = 'AIzaSyCuWImSbueWgSTlwNJ4Ku3UB7tAgsQattg';
 const MAX_UPCOMING_EVENTS = 3; // Número de próximos eventos a mostrar en "Up Next"
-
-/* ------------------------------------------------------------------
-   DATOS DE DEMO ESTÁTICOS
-   Reemplaza esto con la llamada real a la API cuando tengas las credenciales.
-   ------------------------------------------------------------------ */
-const DEMO_EVENTS = [
-  {
-    id: 'evt001',
-    title: 'ACM Social Hour UCSP!',
-    host: 'Comité Social',
-    description: 'Únete a tus compañeros ACMers para una tarde de networking, pizza y conversación sobre tecnología. ¡Todos son bienvenidos!',
-    startISO: '2026-10-24T17:00:00-05:00',
-    endISO:   '2026-10-24T18:30:00-05:00',
-    location: 'Pabellón A · Sala de Cómputo 201',
-    isRecurring: true,
-    color: 'blue'
-  },
-  {
-    id: 'evt002',
-    title: 'Tech Talk: IA Aplicada al Desarrollo',
-    host: 'Comité Académico',
-    description: 'Charla magistral sobre el uso de modelos de lenguaje grande (LLM) en aplicaciones de software reales. Ponente: Ing. Valeria Torres.',
-    startISO: '2026-10-29T19:00:00-05:00',
-    endISO:   '2026-10-29T21:00:00-05:00',
-    location: 'Auditorio San Juan Pablo II',
-    isRecurring: false,
-    color: 'orange'
-  },
-  {
-    id: 'evt003',
-    title: 'Hackathon Interno UCSP 2026',
-    host: 'Comité de Competencias',
-    description: '24 horas para construir, innovar y competir. Forma tu equipo de hasta 4 personas.',
-    startISO: '2026-11-12T08:00:00-05:00',
-    endISO:   '2026-11-13T08:00:00-05:00',
-    location: 'Lab de Innovación · Pabellón F',
-    isRecurring: false,
-    color: 'red'
-  },
-  {
-    id: 'evt004',
-    title: 'Workshop: Git & GitHub para Proyectos',
-    host: 'Comité Académico',
-    description: 'Aprende control de versiones desde cero: ramas, pull requests y GitHub Actions. Trae tu laptop.',
-    startISO: '2026-11-05T16:00:00-05:00',
-    endISO:   '2026-11-05T18:00:00-05:00',
-    location: 'Lab Informática 3 · Pabellón B',
-    isRecurring: false,
-    color: 'teal'
-  },
-  {
-    id: 'evt005',
-    title: 'ICPC Practice Contest — Ronda #3',
-    host: 'Competitive Programming',
-    description: 'Simulacro ICPC con problemas de dificultad media-alta. Registra tu equipo antes del jueves.',
-    startISO: '2026-11-08T10:00:00-05:00',
-    endISO:   '2026-11-08T15:00:00-05:00',
-    location: 'Lab de Cómputo 101',
-    isRecurring: false,
-    color: 'crimson'
-  }
-];
 
 /* ------------------------------------------------------------------
    INICIALIZACIÓN — Se ejecuta al cargar la página
    ------------------------------------------------------------------ */
 document.addEventListener('DOMContentLoaded', () => {
-  /*
-   * MODO PRODUCCIÓN (descomentar cuando tengas API Key y Calendar ID):
-   * ---------------------------------------------------------------
-   * fetchFromGoogleCalendar()
-   *   .then(events => renderUpNextCards(events))
-   *   .catch(err => {
-   *     console.warn('[ACM UCSP Calendar] Error al conectar con Google Calendar API:', err);
-   *     renderUpNextCards(DEMO_EVENTS); // fallback a datos de demo
-   *   });
-   */
+  document.getElementById('upNextGrid')?.replaceChildren();
+  document.getElementById('pastEventsGrid')?.replaceChildren();
 
-  // MODO DEMO (eliminar cuando actives el modo producción):
-  renderUpNextCards(DEMO_EVENTS);
+  const eventsPromise = fetchFromGoogleCalendar();
+  window.ACM_CALENDAR_SYNC.eventsPromise = eventsPromise;
+
+  const subscriptionButton = document.getElementById('addToCalBtn');
+  if (subscriptionButton) {
+    subscriptionButton.href = `https://calendar.google.com/calendar/u/0/r?cid=${encodeURIComponent(GOOGLE_CALENDAR_ID)}`;
+    subscriptionButton.target = '_blank';
+    subscriptionButton.rel = 'noopener noreferrer';
+  }
+
+  eventsPromise.then(events => {
+    renderUpNextCards(events);
+    renderPastEvents(events);
+  }).catch(error => {
+    console.error('[ACM UCSP Calendar] No se pudieron cargar los eventos:', error);
+    renderUpNextCards([]);
+    renderPastEvents([]);
+  });
 });
 
 /* ------------------------------------------------------------------
    FUNCIÓN PRINCIPAL: Fetch desde Google Calendar API v3
    ------------------------------------------------------------------ */
 async function fetchFromGoogleCalendar() {
-  const now = new Date().toISOString();
-  const maxResults = MAX_UPCOMING_EVENTS + 10; // Traer algunos de más para filtrar
+  const endpoint = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(GOOGLE_CALENDAR_ID)}/events`;
+  const items = [];
+  let pageToken = '';
 
-  const url = new URL(
-    `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(GOOGLE_CALENDAR_ID)}/events`
-  );
+  do {
+    const url = new URL(endpoint);
+    url.searchParams.set('key', GOOGLE_API_KEY);
+    url.searchParams.set('maxResults', '2500');
+    url.searchParams.set('singleEvents', 'true');
+    url.searchParams.set('orderBy', 'startTime');
+    if (pageToken) url.searchParams.set('pageToken', pageToken);
 
-  url.searchParams.set('key', GOOGLE_API_KEY);
-  url.searchParams.set('timeMin', now);                 // Solo eventos futuros
-  url.searchParams.set('maxResults', maxResults);
-  url.searchParams.set('singleEvents', 'true');        // Expandir eventos recurrentes
-  url.searchParams.set('orderBy', 'startTime');        // Ordenar por fecha de inicio
+    const response = await fetch(url.toString());
+    if (!response.ok) {
+      throw new Error(`Google Calendar API respondió con status: ${response.status}`);
+    }
 
-  const response = await fetch(url.toString());
+    const data = await response.json();
+    items.push(...(data.items || []));
+    pageToken = data.nextPageToken || '';
+  } while (pageToken);
 
-  if (!response.ok) {
-    throw new Error(`Google Calendar API respondió con status: ${response.status}`);
-  }
+  return items
+    .filter(item => item.status !== 'cancelled' && (item.start?.dateTime || item.start?.date))
+    .map(mapGoogleCalendarEvent);
+}
 
-  const data = await response.json();
+function mapGoogleCalendarEvent(item) {
+  const rawSummary = item.summary || 'Evento sin título';
+  const categoryMatch = rawSummary.match(/^\[(Workshop|Charla|Competencia|Social|General)\]\s*/i);
+  const categoryNames = {
+    workshop: 'Workshop',
+    charla: 'Charla',
+    competencia: 'Competencia',
+    social: 'Social',
+    general: 'General'
+  };
+  const category = categoryMatch
+    ? categoryNames[categoryMatch[1].toLowerCase()]
+    : 'EVENTO';
+  const categoryColor = {
+    Competencia: 'red',
+    Workshop: 'teal',
+    Charla: 'blue',
+    Social: 'blue',
+    General: 'blue',
+    EVENTO: 'blue'
+  }[category];
+  const startISO = item.start?.dateTime || item.start?.date;
+  const endISO = item.end?.dateTime || item.end?.date || startISO;
+  const startDate = parseCalendarDate(startISO);
+  const endDate = parseCalendarDate(endISO);
 
-  // Transformar la respuesta de la API al formato interno de ACM UCSP
-  return (data.items || []).map(item => ({
-    id: item.id,
-    title: item.summary || 'Evento sin título',
+  return {
+    id: item.id || '',
+    title: categoryMatch ? rawSummary.slice(categoryMatch[0].length) : rawSummary,
+    category,
     host: item.organizer?.displayName || 'ACM UCSP',
     description: item.description || '',
-    startISO: item.start?.dateTime || item.start?.date,
-    endISO: item.end?.dateTime || item.end?.date,
+    startISO,
+    endISO,
+    date: formatDateKey(startDate),
+    startTime: item.start?.dateTime ? formatEventTime(startDate) : 'Todo el día',
+    endTime: item.end?.dateTime ? formatEventTime(endDate) : 'Todo el día',
     location: item.location || 'Por confirmar',
     isRecurring: !!item.recurringEventId,
-    color: 'blue' // Color por defecto; puedes mapear colores de Google Calendar
-  }));
+    color: categoryColor
+  };
+}
+
+function parseCalendarDate(value) {
+  return value.includes('T') ? new Date(value) : new Date(`${value}T00:00:00`);
+}
+
+function formatDateKey(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function formatEventTime(date) {
+  return date.toLocaleTimeString('es-PE', { hour: 'numeric', minute: '2-digit', hour12: true });
 }
 
 /* ------------------------------------------------------------------
@@ -150,10 +145,9 @@ function renderUpNextCards(events) {
   const grid = document.getElementById('upNextGrid');
   if (!grid) return; // Solo se ejecuta en index.html
 
-  // Filtrar solo eventos futuros y tomar los primeros MAX_UPCOMING_EVENTS
-  const now = Date.now();
+  const now = new Date();
   const upcoming = events
-    .filter(ev => new Date(ev.startISO).getTime() > now)
+    .filter(ev => parseCalendarDate(ev.startISO) >= now)
     .sort((a, b) => new Date(a.startISO) - new Date(b.startISO))
     .slice(0, MAX_UPCOMING_EVENTS);
 
@@ -166,9 +160,59 @@ function renderUpNextCards(events) {
     return;
   }
 
-  // Solo reemplazar si hay datos dinámicos (no sobreescribir el HTML demo)
-  // Comentar la siguiente línea si prefieres siempre usar el HTML estático:
-  // grid.innerHTML = upcoming.map(ev => buildEventCardHTML(ev)).join('');
+  grid.innerHTML = upcoming.map(buildEventCardHTML).join('');
+}
+
+function renderPastEvents(events) {
+  const grid = document.getElementById('pastEventsGrid');
+  if (!grid) return;
+
+  const now = new Date();
+  const past = events
+    .filter(event => parseCalendarDate(event.startISO) < now)
+    .sort((a, b) => new Date(b.startISO) - new Date(a.startISO))
+    .slice(0, 8);
+
+  if (past.length === 0) {
+    grid.innerHTML = '<p class="past-events-empty" role="status">No hay eventos pasados disponibles.</p>';
+    return;
+  }
+
+  grid.innerHTML = past.map(buildPastEventCardHTML).join('');
+}
+
+function buildPastEventCardHTML(event) {
+  const date = parseCalendarDate(event.startISO);
+  const dateLabel = date.toLocaleDateString('es-PE', { day: 'numeric', month: 'short', year: 'numeric' });
+  const description = event.description || 'Sin descripción disponible.';
+  const categoryClass = {
+    Competencia: 'competencia',
+    Charla: 'charla',
+    Workshop: 'workshop',
+    Social: 'social',
+    General: 'general',
+    EVENTO: 'general'
+  }[event.category] || 'general';
+
+  return `
+    <article class="past-event-card" role="listitem" aria-label="${escapeHTML(event.title)}">
+      <div class="past-event-img-wrap past-event-banner past-event-banner--${categoryClass}">
+        <span class="past-event-banner-tag">${escapeHTML(event.category || 'EVENTO')}</span>
+        <div class="past-event-banner-copy">
+          <h3 class="past-event-banner-title">${escapeHTML(event.title)}</h3>
+          <p class="past-event-banner-subtitle">ACM UCSP · Next Nodo 2026</p>
+        </div>
+      </div>
+      <div class="past-event-body">
+        <p class="past-event-desc">${escapeHTML(description)}</p>
+        <div class="past-event-meta">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+          ${escapeHTML(dateLabel)}
+        </div>
+      </div>
+    </article>`;
 }
 
 /* ------------------------------------------------------------------
@@ -176,21 +220,24 @@ function renderUpNextCards(events) {
    (Usado cuando hay datos dinámicos de Google Calendar)
    ------------------------------------------------------------------ */
 function buildEventCardHTML(event) {
-  const start = new Date(event.startISO);
-  const end   = new Date(event.endISO);
+  const start = parseCalendarDate(event.startISO);
+  const end   = parseCalendarDate(event.endISO);
 
-  const formatDate = (d) => d.toLocaleString('es-PE', {
-    weekday: 'short', day: 'numeric', month: 'short',
-    hour: '2-digit', minute: '2-digit', hour12: true
+  const formatDate = (d) => d.toLocaleDateString('es-PE', {
+    weekday: 'short', day: 'numeric', month: 'short'
   });
 
-  const formatEndTime = (d) => d.toLocaleString('es-PE', {
-    hour: '2-digit', minute: '2-digit', hour12: true
+  const formatTime = (d) => d.toLocaleTimeString('es-PE', {
+    hour: 'numeric', minute: '2-digit', hour12: true
   });
+  const eventPeriod = event.startTime === 'Todo el día'
+    ? `${formatDate(start)} · Todo el día`
+    : `${formatDate(start)} · ${formatTime(start)} – ${formatDate(end)} · ${formatTime(end)}`;
 
-  const shortDesc = event.description.length > 150
-    ? event.description.slice(0, 150) + '...'
-    : event.description;
+  const description = event.description || 'Sin descripción disponible.';
+  const shortDesc = description.length > 150
+    ? description.slice(0, 150) + '...'
+    : description;
 
   const gcalURL = window.ACM_UCSP?.buildGCalURL({
     title: event.title,
@@ -201,10 +248,10 @@ function buildEventCardHTML(event) {
   }) || '#';
 
   return `
-    <article class="event-card-horizontal" data-event-id="${event.id}">
+    <article class="event-card-horizontal" data-event-id="${escapeHTML(event.id)}">
       <div class="card-top">
         <h3 class="event-card-title">${escapeHTML(event.title)}</h3>
-        <p class="event-host">Organizado por ${escapeHTML(event.host)}</p>
+        <p class="event-host">${escapeHTML(event.category)} · Organizado por ${escapeHTML(event.host)}</p>
         <p class="event-desc">${escapeHTML(shortDesc)}</p>
       </div>
       <div class="card-meta">
@@ -213,7 +260,7 @@ function buildEventCardHTML(event) {
             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
             <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
           </svg>
-          <span>${formatDate(start)} – ${formatEndTime(end)}</span>
+          <span>${eventPeriod}</span>
           ${event.isRecurring ? '<span class="meta-badge-recur">Semanal</span>' : ''}
         </div>
         <div class="meta-row">
@@ -238,5 +285,9 @@ function escapeHTML(str) {
   return div.innerHTML;
 }
 
-// Exportar para uso en calendar.js
-window.ACM_CALENDAR_SYNC = { DEMO_EVENTS, fetchFromGoogleCalendar };
+// Exportar la carga compartida y el identificador para las demás vistas.
+window.ACM_CALENDAR_SYNC = {
+  calendarId: GOOGLE_CALENDAR_ID,
+  fetchFromGoogleCalendar,
+  eventsPromise: null
+};

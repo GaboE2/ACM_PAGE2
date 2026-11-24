@@ -11,6 +11,7 @@ let currentDate = new Date();      // Mes actualmente visible
 let selectedEvent = null;          // Evento seleccionado para el panel de detalles
 let allEvents = [];                // Todos los eventos cargados
 let activeFilter = '';             // Filtro de comité activo
+let activeSearch = '';
 
 const MONTHS_ES = [
   'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
@@ -20,51 +21,30 @@ const MONTHS_ES = [
 const WEEKDAYS_SHORT = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
 
 /* ------------------------------------------------------------------
-   DATOS DE EVENTOS DE PRUEBA (Octubre–Noviembre 2026)
-   Estilo cuadrícula UIUC: múltiples eventos por día, colores variados
-   ------------------------------------------------------------------ */
-const CALENDAR_EVENTS = [
-  // --- OCTUBRE 2026 ---
-  { id: 'c01', title: 'ACM Social Hour', date: '2026-10-02', host: 'Comité Social',        location: 'Sala Cómputo 201',         desc: 'Tarde de networking y pizza con los miembros del capítulo.', color: 'blue',    startTime: '5:00 PM', endTime: '6:30 PM' },
-  { id: 'c02', title: 'Reunión General ACM', date: '2026-10-06', host: 'Directiva',       location: 'Sala de Reuniones A',      desc: 'Reunión mensual de toda la directiva del capítulo.', color: 'navy',   startTime: '6:00 PM', endTime: '7:30 PM' },
-  { id: 'c03', title: 'Workshop: Python para DS', date: '2026-10-08', host: 'Comité Académico', location: 'Lab Info 2',        desc: 'Introducción a Pandas, NumPy y Matplotlib para análisis de datos.', color: 'teal',   startTime: '3:00 PM', endTime: '5:00 PM' },
-  { id: 'c04', title: 'ACM Social Hour', date: '2026-10-09', host: 'Comité Social',        location: 'Sala Cómputo 201',         desc: 'Tarde de networking y pizza con los miembros del capítulo.', color: 'blue',    startTime: '5:00 PM', endTime: '6:30 PM' },
-  { id: 'c05', title: 'ICPC Practice — Ronda #1', date: '2026-10-11', host: 'Competitive Prog.', location: 'Lab Cómputo 101', desc: 'Simulacro de concurso ICPC. Duración: 3 horas.', color: 'crimson', startTime: '10:00 AM', endTime: '1:00 PM' },
-  { id: 'c06', title: 'ACM Social Hour', date: '2026-10-16', host: 'Comité Social',        location: 'Sala Cómputo 201',         desc: 'Tarde de networking y pizza con los miembros del capítulo.', color: 'blue',    startTime: '5:00 PM', endTime: '6:30 PM' },
-  { id: 'c07', title: 'Charla: Seguridad en Apps', date: '2026-10-21', host: 'Comité Académico', location: 'Auditorio SJP II', desc: 'Fundamentos de ciberseguridad aplicada al desarrollo de software.', color: 'orange', startTime: '7:00 PM', endTime: '9:00 PM' },
-  { id: 'c08', title: 'ACM Social Hour', date: '2026-10-23', host: 'Comité Social',        location: 'Sala Cómputo 201',         desc: 'Tarde de networking con los miembros.', color: 'blue',    startTime: '5:00 PM', endTime: '6:30 PM' },
-  { id: 'c09', title: 'Tech Talk: IA Aplicada', date: '2026-10-29', host: 'Comité Académico', location: 'Auditorio SJP II',    desc: 'LLMs y su aplicación en el desarrollo de software moderno.', color: 'orange', startTime: '7:00 PM', endTime: '9:00 PM' },
-  { id: 'c10', title: 'ICPC Practice — Ronda #2', date: '2026-10-25', host: 'Competitive Prog.', location: 'Lab Cómputo 101', desc: 'Segunda ronda de práctica con problemas de grafos y DP.', color: 'crimson', startTime: '10:00 AM', endTime: '1:00 PM' },
-  { id: 'c11', title: 'ACM Social Hour', date: '2026-10-30', host: 'Comité Social',        location: 'Sala Cómputo 201',         desc: 'Última Social Hour de octubre. ¡Bienvenidos nuevos miembros!', color: 'blue',    startTime: '5:00 PM', endTime: '6:30 PM' },
-
-  // --- NOVIEMBRE 2026 ---
-  { id: 'c12', title: 'Workshop: Git & GitHub', date: '2026-11-05', host: 'Comité Académico', location: 'Lab Info 3',         desc: 'Control de versiones desde cero hasta GitHub Actions.', color: 'teal',   startTime: '4:00 PM', endTime: '6:00 PM' },
-  { id: 'c13', title: 'ACM Social Hour', date: '2026-11-06', host: 'Comité Social',          location: 'Sala Cómputo 201',       desc: 'Networking semanal del capítulo.', color: 'blue',    startTime: '5:00 PM', endTime: '6:30 PM' },
-  { id: 'c14', title: 'ICPC Practice — Ronda #3', date: '2026-11-08', host: 'Competitive Prog.', location: 'Lab Cómputo 101', desc: 'Tercera ronda con problemas de dificultad media-alta.', color: 'crimson', startTime: '10:00 AM', endTime: '3:00 PM' },
-  { id: 'c15', title: 'Hackathon UCSP 2026', date: '2026-11-12', host: 'Comité Competencias', location: 'Lab Innovación F',   desc: '24 horas para innovar. Forma tu equipo de hasta 4 personas.', color: 'red',     startTime: '8:00 AM', endTime: '8:00 AM+1' },
-  { id: 'c16', title: 'Clausura Hackathon', date: '2026-11-13', host: 'Comité Competencias', location: 'Auditorio SJP II',    desc: 'Presentación de proyectos y ceremonia de premiación.', color: 'orange', startTime: '10:00 AM', endTime: '1:00 PM' },
-  { id: 'c17', title: 'ACM Social Hour', date: '2026-11-13', host: 'Comité Social',          location: 'Sala Cómputo 201',       desc: 'Social Hour post-Hackathon.', color: 'blue',    startTime: '5:00 PM', endTime: '6:30 PM' },
-  { id: 'c18', title: 'Charla: Carrera en Big Tech', date: '2026-11-17', host: 'Outreach',  location: 'Auditorio SJP II',    desc: 'Invitado especial: ex-Googler comparte su experiencia profesional.', color: 'navy',   startTime: '6:00 PM', endTime: '8:00 PM' },
-  { id: 'c19', title: 'ACM Social Hour', date: '2026-11-20', host: 'Comité Social',          location: 'Sala Cómputo 201',       desc: 'Networking semanal.', color: 'blue',    startTime: '5:00 PM', endTime: '6:30 PM' },
-  { id: 'c20', title: 'Workshop: Docker & Devops', date: '2026-11-24', host: 'Comité Académico', location: 'Lab Info 2',      desc: 'Containerización con Docker y fundamentos de CI/CD.', color: 'teal',   startTime: '3:00 PM', endTime: '5:30 PM' },
-  { id: 'c21', title: 'ACM Social Hour', date: '2026-11-27', host: 'Comité Social',          location: 'Sala Cómputo 201',       desc: 'Último evento de noviembre.', color: 'blue',    startTime: '5:00 PM', endTime: '6:30 PM' }
-];
-
-/* ------------------------------------------------------------------
    INICIALIZACIÓN
    ------------------------------------------------------------------ */
-document.addEventListener('DOMContentLoaded', () => {
-  allEvents = CALENDAR_EVENTS;
-
-  // Si calendar-sync.js cargó eventos de Google Calendar, combinarlos
-  if (window.ACM_CALENDAR_SYNC?.DEMO_EVENTS) {
-    // Los DEMO_EVENTS de calendar-sync.js ya están incluidos en CALENDAR_EVENTS
-    // Para producción: allEvents = [...CALENDAR_EVENTS, ...fetchedEvents];
-  }
-
-  renderCalendar(currentDate);
+document.addEventListener('DOMContentLoaded', async () => {
   bindCalendarControls();
+  try {
+    const eventsPromise = window.ACM_CALENDAR_SYNC?.eventsPromise
+      || window.ACM_CALENDAR_SYNC?.fetchFromGoogleCalendar();
+    allEvents = eventsPromise ? await eventsPromise : [];
+    populateOrganizerFilter();
+  } catch (error) {
+    console.error('[ACM UCSP Calendar] No se pudo cargar la vista mensual:', error);
+    allEvents = [];
+  }
+  renderCalendar(currentDate);
 });
+
+function populateOrganizerFilter() {
+  const selector = document.getElementById('hostSelector');
+  if (!selector) return;
+
+  const hosts = [...new Set(allEvents.map(event => event.host).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'es'));
+  selector.replaceChildren(new Option('Todos los comités', ''));
+  hosts.forEach(host => selector.add(new Option(host, host)));
+}
 
 /* ------------------------------------------------------------------
    RENDERIZADO DEL CALENDARIO
@@ -148,8 +128,11 @@ function renderDaysGrid(date) {
     // Eventos de ese día
     const dayEvents = allEvents.filter(ev => {
       const match = ev.date === cell.dateStr;
-      const hostMatch = !filter || ev.host.toLowerCase().includes(filter.toLowerCase());
-      return match && hostMatch;
+      const hostMatch = !filter || ev.host.toLowerCase() === filter.toLowerCase();
+      const query = activeSearch;
+      const searchMatch = !query || [ev.title, ev.host, ev.location, ev.description, ev.category]
+        .some(value => String(value || '').toLowerCase().includes(query));
+      return match && hostMatch && searchMatch;
     });
 
     dayEvents.forEach(ev => {
@@ -186,23 +169,22 @@ function showEventDetails(event) {
   emptyPanel.style.display   = 'none';
   contentPanel.style.display = 'block';
 
-  document.getElementById('detailsBadge').textContent   = event.host;
+  document.getElementById('detailsBadge').textContent   = event.category || 'EVENTO';
   document.getElementById('detailsTitle').textContent   = event.title;
   document.getElementById('detailsDate').textContent    = `${formatDayForDisplay(event.date)} · ${event.startTime} – ${event.endTime}`;
   document.getElementById('detailsLocation').textContent = event.location;
   document.getElementById('detailsHost').textContent    = `Organizado por ${event.host}`;
-  document.getElementById('detailsDesc').textContent    = event.desc;
+  document.getElementById('detailsDesc').textContent    = event.description || 'Sin descripción disponible.';
 
   // Actualizar botón de Google Calendar
   const gcalBtn = document.getElementById('btnAddSingleEvent');
   if (gcalBtn && window.ACM_UCSP) {
-    const startISO = `${event.date}T${convertTo24h(event.startTime)}:00-05:00`;
-    const endISO   = `${event.date}T${convertTo24h(event.endTime)}:00-05:00`;
     const gcalURL  = window.ACM_UCSP.buildGCalURL({
       title: event.title,
-      startISO, endISO,
+      startISO: event.startISO,
+      endISO: event.endISO,
       location: event.location,
-      description: event.desc
+      description: event.description || ''
     });
     gcalBtn.onclick = () => window.open(gcalURL, '_blank', 'noopener,noreferrer');
   }
@@ -253,15 +235,7 @@ function bindCalendarControls() {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => {
         const query = e.target.value.trim().toLowerCase();
-        if (query.length === 0) {
-          allEvents = CALENDAR_EVENTS;
-        } else {
-          allEvents = CALENDAR_EVENTS.filter(ev =>
-            ev.title.toLowerCase().includes(query) ||
-            ev.host.toLowerCase().includes(query) ||
-            ev.location.toLowerCase().includes(query)
-          );
-        }
+        activeSearch = query;
         renderCalendar(currentDate);
       }, 250);
     });
@@ -270,7 +244,9 @@ function bindCalendarControls() {
   // Botón "Agregar todos los eventos al calendario"
   document.getElementById('btnAddAllEvents')?.addEventListener('click', () => {
     // Genera una URL de iCal o abre Google Calendar en modo de suscripción
-    const calFeed = `https://calendar.google.com/calendar/r?cid=${encodeURIComponent('acm.ucsp@ucsp.edu.pe')}`;
+    const calendarId = window.ACM_CALENDAR_SYNC?.calendarId;
+    if (!calendarId) return;
+    const calFeed = `https://calendar.google.com/calendar/u/0/r?cid=${encodeURIComponent(calendarId)}`;
     window.open(calFeed, '_blank', 'noopener,noreferrer');
   });
 }
@@ -298,12 +274,3 @@ function formatDayForDisplay(dateStr) {
   });
 }
 
-/** Convierte "5:00 PM" → "17:00" para construir ISO strings */
-function convertTo24h(timeStr) {
-  if (!timeStr || timeStr.includes('+')) return '00:00'; // manejo de +1 día
-  const [time, period] = timeStr.split(' ');
-  let [hours, minutes] = time.split(':').map(Number);
-  if (period === 'PM' && hours !== 12) hours += 12;
-  if (period === 'AM' && hours === 12) hours = 0;
-  return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-}
