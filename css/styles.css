@@ -1687,7 +1687,10 @@ button, input, textarea, select {
 }
 
 .footer-col-brand .footer-logo {
-  max-height: 40px;
+  width: 145px;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
   margin-bottom: 16px;
 }
 
