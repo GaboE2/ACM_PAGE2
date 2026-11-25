@@ -809,13 +809,17 @@ button, input, textarea, select {
 }
 
 .team-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
   margin-top: 40px;
 }
 
 .team-card {
+  flex: 0 1 calc(25% - 24px);
+  min-width: 230px;
+  max-width: 270px;
   background-color: #FFFFFF;
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
@@ -1043,6 +1047,7 @@ button, input, textarea, select {
   font-size: 1.35rem;
   font-weight: 700;
   color: var(--text-dark);
+  margin-bottom: 12px;
 }
 
 /* Barra de controles estilo UIUC */
@@ -1783,7 +1788,11 @@ button, input, textarea, select {
   }
 
   .team-grid {
-    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .team-card {
+    flex-basis: calc(50% - 12px);
   }
 
   .calendar-layout-grid {
@@ -1863,7 +1872,12 @@ button, input, textarea, select {
   }
 
   .team-grid {
-    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .team-card {
+    flex-basis: 100%;
+    max-width: 100%;
   }
 
   .roadmap-tracks-grid {
