@@ -20,6 +20,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     permissions:
+      actions: write
       pages: write
       id-token: write
     steps:
@@ -29,14 +30,28 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      - name: Remove stale Pages artifacts from previous attempts
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const { data } = await github.rest.actions.listWorkflowRunArtifacts({
+              owner,
+              repo,
+              run_id: context.runId,
+              per_page: 100,
+            });
+
+            for (const artifact of data.artifacts.filter(({ name }) => name === 'github-pages')) {
+              await github.rest.actions.deleteArtifact({ owner, repo, artifact_id: artifact.id });
+              core.info(`Deleted stale Pages artifact ${artifact.id} from a previous run attempt.`);
+            }
+
       - name: Upload repository root
         uses: actions/upload-pages-artifact@v4
         with:
-          name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
           path: .
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        with:
-          artifact_name: github-pages-${{ github.run_id }}-${{ github.run_attempt }}
