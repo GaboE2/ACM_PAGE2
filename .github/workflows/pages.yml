@@ -14,15 +14,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       actions: write
-      pages: write
-      id-token: write
     steps:
       - name: Checkout main
         uses: actions/checkout@v6
@@ -51,6 +47,19 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: .
+
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Wait for artifact indexing
+        run: sleep 60
 
       - name: Deploy to GitHub Pages
         id: deployment
